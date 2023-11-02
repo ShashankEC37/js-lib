@@ -123,6 +123,5 @@ class Fetcher {
 
 }
 
-export { Fetcher };
 
 
