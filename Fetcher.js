@@ -1,14 +1,9 @@
-class Fetcher { 
-  //Initialize class with url
+class Fetcher {
   _subscriptions = []
   _baseUrl = "http://127.0.0.1:8000"
   _dataIdParam = "data_id"
   _ownerIdParam = "owner_id"
   _apiKey = ""
-
-
-
-
 
 
   initialize(config) {
@@ -116,12 +111,112 @@ class Fetcher {
     }
   }
 
-
-
-
-
-
 }
 
+class UnifiedModule {
+  constructor(chatbotOptions, fetcherOptions, subscriptions) {
+      this.chatbotOptions = chatbotOptions;
+      this.fetcher = new Fetcher();
+      this.fetcher.initialize(fetcherOptions);
+      this.subscriptions = subscriptions;
+  }
 
+  createChatbotIframe() {
+      let element = document.getElementById('chatbot-container');
+      if (!element) {
+          element = document.createElement('div');
+          element.id = 'mortyGPT-chatbot-container';
+          element.style.cssText = `
+            position: fixed; 
+            right: 68px; 
+            bottom: 68px; 
+            width: ${this.chatbotOptions.defaultWidth}; 
+            height: ${this.chatbotOptions.defaultHeight}; 
+            border: none; 
+            padding: 0;
+            box-sizing: border-box;
+            display: none; 
+            z-index: 999;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+          `;
+          element.innerHTML = `<iframe id="${this.chatbotOptions.elementId}" src="${this.chatbotOptions.domain}" frameborder="0" style="width: 100%; height: 100%;"></iframe>`;
+          document.body.appendChild(element);
+      }
+  }
 
+  loadFontAwesome() {
+      const link = document.createElement('link');
+      link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css';
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+  }
+
+  createChatbotButton() {
+      const button = document.createElement('button');
+      button.classList.add('chatbot-toggler');
+      this.loadFontAwesome();
+
+      const icon = document.createElement('i');
+      icon.classList.add('fa-regular', 'fa-comment', 'fa-2xl');
+      icon.style.cssText = 'color: #e2dd40; pointer-events: none;';
+
+      button.appendChild(icon);
+
+      button.style.cssText = `
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        height: 60px;
+        width: 60px;
+        background-color: #724ae8;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+      `;
+
+      button.onclick = () => {
+          const chatbotContainer = document.getElementById('chatbot-container');
+          chatbotContainer.style.display = chatbotContainer.style.display === 'none' || chatbotContainer.style.display === '' ? 'block' : 'none';
+      };
+
+      document.body.appendChild(button);
+  }
+
+  handleClickOutside(event) {
+      const chatbotContainer = document.getElementById('chatbot-container');
+      if (chatbotContainer && !chatbotContainer.contains(event.target) && !event.target.classList.contains('chatbot-toggler')) {
+          chatbotContainer.style.display = 'none';
+      }
+  }
+
+  initChatbotLoader() {
+      this.createChatbotIframe();
+      this.createChatbotButton();
+      document.addEventListener('click', this.handleClickOutside.bind(this));
+  }
+
+  handleSubscription(subscription) {
+      return this.fetcher.subscribeAndListen({
+          topics: subscription.topics,
+          callback: subscription.callback
+      });
+  }
+
+  initializeSubscriptions() {
+      this.subscriptions.forEach(subscription => this.handleSubscription(subscription));
+  }
+
+  init() {
+      this.initChatbotLoader();
+      this.initializeSubscriptions();
+  }
+}
+
+export default UnifiedModule;
