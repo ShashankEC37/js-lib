@@ -58,11 +58,11 @@ class Fetcher {
       if(action){
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
             this.fetchData().then(data => {
-              document.addEventListener("DOMContentLoaded", function() {
+              
                 if (typeof subscription.callback === "function") {
                     subscription.callback(data.parsedData);
                 }
-            });
+            
           }).catch(error => {
               console.error("There was an error fetching data:", error.message);
           });
