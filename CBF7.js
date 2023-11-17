@@ -16,7 +16,15 @@ class Fetcher {
       this._apiKey = config.apiKey
 
   }
-
+   isNotEmpty(obj) {
+    for (const prop in obj) {
+      if (Object.hasOwn(obj, prop)) {
+        return true;
+      }
+    }
+  
+    return false;
+  }
   async validateApiKey(apiKey) {
     const response = await fetch(`${this._baseUrl}/authenticate`, {
       method: 'POST',
@@ -58,12 +66,15 @@ class Fetcher {
       if(action){
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
             this.fetchData().then(data => {
+              if(this.isNotEmpty(data)){
+                setTimeout(function() {
+                  if (typeof subscription.callback === "function") {
+                      subscription.callback(data.parsedData);
+                  }
+              }, 3000);
+              }
               
-              setTimeout(function() {
-                if (typeof subscription.callback === "function") {
-                    subscription.callback(data.parsedData);
-                }
-            }, 3000);
+            
             
           }).catch(error => {
               console.error("There was an error fetching data:", error.message);
