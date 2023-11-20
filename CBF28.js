@@ -107,27 +107,43 @@ class Fetcher {
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
 
     if (subscription) {
-      const action = this.getURLParams('action'); 
-      if(action){
-          if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
-            this.fetchData().then(data => {
-              if(this.isNotEmpty(data)){
-                document.addEventListener('DOMContentLoaded',function() {
-                  if (typeof subscription.callback === "function") {
-                      subscription.callback(data.parsedData);
-                  }
-              });
+      const action = this.getURLParams('action');
+      
+      // Function to run when the email input is loaded
+      const runWhenEmailIsLoaded = () => {
+        this.fetchData().then(data => {
+          if (this.isNotEmpty(data)) {
+            setTimeout(function() {
+              if (typeof subscription.callback === "function") {
+                subscription.callback(data.parsedData);
               }
-              
-            
-            
-          }).catch(error => {
-              console.error("There was an error fetching data:", error.message);
-          });
+            }, 3000);
+          }
+        }).catch(error => {
+          console.error("There was an error fetching data:", error.message);
+        });
+      };
+    
+      // Check if the email input element exists
+      const checkEmailInput = () => {
+        const emailInput = document.getElementById('email');
+        if (emailInput) {
+          // The email input element is loaded, so run the function
+          runWhenEmailIsLoaded();
+        } else {
+          // The email input element is not yet loaded, so wait and check again
+          setTimeout(checkEmailInput, 100); // Check again after 100 milliseconds
+        }
+      };
+    
+      if (action) {
+        if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
+          // Check for the email input element
+          checkEmailInput();
+        }
       }
-      }
-     
-  }
+    }
+    
     return subscriptionId;
   }
 
