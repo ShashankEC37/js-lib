@@ -252,7 +252,10 @@ class UnifiedModule {
 
   init() {
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/jsonwebtoken/9.0.2/index.js", () => {
+      console.log("In line 255")
       loadScript("https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js", () => {
+      console.log("In line 255")
+
         this.initChatbotLoader();
         this.initializeSubscriptions();
       });
