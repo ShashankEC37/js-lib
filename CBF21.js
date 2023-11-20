@@ -200,7 +200,7 @@ class UnifiedModule {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           `;
           const secretKey = "abc0372c1065e9651e4bb79511865942b6701f80509d04ce39ec28b8e4c80466"; 
-          const jwtToken = signJWT(chatbotOptions, secretKey);
+          const jwtToken = signJWT(this.chatbotOptions.metaData, secretKey);
           let chatbotDomain = this.chatbotOptions.domain+"?token="+jwtToken
           console.log(chatbotDomain)
           element.innerHTML = `<iframe id="${this.chatbotOptions.elementId}" src="${chatbotDomain}" frameborder="0" style="width: 100%; height: 100%;"></iframe>`;
