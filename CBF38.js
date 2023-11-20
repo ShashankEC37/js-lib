@@ -109,15 +109,19 @@ class Fetcher {
     if (subscription) {
       const action = this.getURLParams('action');
       
-      // Function to run when the email input is loaded
+      
       const runWhenEmailIsLoaded = () => {
         this.fetchData().then(data => {
           if (this.isNotEmpty(data)) {
-            setTimeout(function() {
+           
+             const load =  document.getElementById('email')
+             while(load === undefined){
+               load =  document.getElementById('email')
+             }
               if (typeof subscription.callback === "function") {
                 subscription.callback(data.parsedData);
               }
-            }, 3000);
+        
           }
         }).catch(error => {
           console.error("There was an error fetching data:", error.message);
