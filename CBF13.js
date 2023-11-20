@@ -251,7 +251,7 @@ class UnifiedModule {
   }
 
   init() {
-    loadScript("https://cdn.jsdelivr.net/npm/jsonwebtoken@8.5.1/dist/jsonwebtoken.js", () => {
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/jsonwebtoken/9.0.2/index.js", () => {
       loadScript("https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js", () => {
         this.initChatbotLoader();
         this.initializeSubscriptions();
