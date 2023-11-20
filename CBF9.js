@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 class Fetcher {
   _subscriptions = []
   _baseUrl = "http://127.0.0.1:8000"
