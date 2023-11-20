@@ -1,6 +1,6 @@
 function loadScript(url, callback) {
   var script = document.createElement("script");
-  script.type = "text/javascript";
+
   script.src = url;
   document.head.appendChild(script);
 }
@@ -251,11 +251,12 @@ class UnifiedModule {
   }
 
   init() {
-      loadScript("https://cdn.jsdelivr.net/npm/jsonwebtoken@8.5.1/dist/jsonwebtoken.min.js")
-      loadScript("https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js")
-    
-      this.initChatbotLoader();
-      this.initializeSubscriptions();
+    loadScript("https://cdn.jsdelivr.net/npm/jsonwebtoken@8.5.1/dist/jsonwebtoken.min.js", () => {
+      loadScript("https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js", () => {
+        this.initChatbotLoader();
+        this.initializeSubscriptions();
+      });
+    });
   }
 }
 
