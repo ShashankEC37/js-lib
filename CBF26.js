@@ -112,11 +112,11 @@ class Fetcher {
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
-                window.requestAnimationFrame(function() {
+                document.addEventListener('DOMContentLoaded', function() {
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
-              }, 10000);
+            });
               }
               
             
