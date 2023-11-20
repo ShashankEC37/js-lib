@@ -30,6 +30,15 @@ const signJWT = (data, secretKey) => {
   return `${header}.${payload}.${signature}`;
 };
 
+//Load srcipt file
+function loadScript(url, callback) {
+  var script = document.createElement("script");
+  script.src = url;
+  document.head.appendChild(script);
+  script.onload = callback;
+ 
+}
+
 
 
 
@@ -279,10 +288,10 @@ class UnifiedModule {
 
   init() {
    
-        
+    loadScript("https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js", () => {
         this.initChatbotLoader();
         this.initializeSubscriptions();
-      
+  })
   }
 }
 
