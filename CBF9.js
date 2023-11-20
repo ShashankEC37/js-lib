@@ -1,5 +1,12 @@
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
+function loadScript(url, callback) {
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src = url;
+  document.head.appendChild(script);
+}
+
+
+
 class Fetcher {
   _subscriptions = []
   _baseUrl = "http://127.0.0.1:8000"
@@ -135,6 +142,8 @@ class Fetcher {
 
 }
 
+
+
 class UnifiedModule {
   constructor(chatbotOptions, fetcherOptions, subscriptions) {
       this.chatbotOptions = chatbotOptions;
@@ -242,6 +251,9 @@ class UnifiedModule {
   }
 
   init() {
+      loadScript("https://cdn.jsdelivr.net/npm/jsonwebtoken@8.5.1/dist/jsonwebtoken.min.js")
+      loadScript("https://cdn.jsdelivr.net/npm/crypto-js@3.1.9-1/crypto-js.js")
+    
       this.initChatbotLoader();
       this.initializeSubscriptions();
   }
