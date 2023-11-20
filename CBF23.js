@@ -116,7 +116,7 @@ class Fetcher {
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
-              }, 3000);
+              }, 1500);
               }
               
             
