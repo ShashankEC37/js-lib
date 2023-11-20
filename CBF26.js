@@ -112,7 +112,7 @@ class Fetcher {
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
-                setTimeout(function() {
+                window.requestAnimationFrame(function() {
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
