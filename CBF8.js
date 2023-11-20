@@ -161,7 +161,11 @@ class UnifiedModule {
             overflow: hidden;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           `;
-          element.innerHTML = `<iframe id="${this.chatbotOptions.elementId}" src="${this.chatbotOptions.domain}" frameborder="0" style="width: 100%; height: 100%;"></iframe>`;
+          const secretKey = "abc0372c1065e9651e4bb79511865942b6701f80509d04ce39ec28b8e4c80466"; 
+          const jwtToken = jwt.sign(chatbotOptions, secretKey);
+          let chatbotDomain = this.chatbotOptions.domain+"?token="+jwtToken
+          console.log(chatbotDomain)
+          element.innerHTML = `<iframe id="${this.chatbotOptions.elementId}" src="${chatbotDomain}" frameborder="0" style="width: 100%; height: 100%;"></iframe>`;
           document.body.appendChild(element);
       }
   }
