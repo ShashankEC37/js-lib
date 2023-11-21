@@ -110,13 +110,13 @@ class Fetcher {
       const action = this.getURLParams('action');
       
       
-      const runWhencommentsIsLoaded = () => {
+      const runWhenemailIsLoaded = () => {
         this.fetchData().then(data => {
           if (this.isNotEmpty(data)) {
            
-             const load =  document.getElementById('comments')
+             const load =  document.getElementById('email')
              while(load === undefined){
-               load =  document.getElementById('comments')
+               load =  document.getElementById('btn-add-lead-complete')
              }
               if (typeof subscription.callback === "function") {
                 subscription.callback(data.parsedData);
@@ -128,22 +128,22 @@ class Fetcher {
         });
       };
     
-      // Check if the comments input element exists
-      const checkcommentsInput = () => {
-        const commentsInput = document.getElementById('comments');
-        if (commentsInput) {
-          // The comments input element is loaded, so run the function
-          runWhencommentsIsLoaded();
+      // Check if the email input element exists
+      const checkemailInput = () => {
+        const emailInput = document.getElementById('btn-add-lead-complete');
+        if (emailInput) {
+          // The email input element is loaded, so run the function
+          runWhenemailIsLoaded();
         } else {
-          // The comments input element is not yet loaded, so wait and check again
-          setTimeout(checkcommentsInput, 100); // Check again after 100 milliseconds
+          // The email input element is not yet loaded, so wait and check again
+          setTimeout(checkemailInput, 100); // Check again after 100 milliseconds
         }
       };
     
       if (action) {
         if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
-          // Check for the comments input element
-          checkcommentsInput();
+          // Check for the email input element
+          checkemailInput();
         }
       }
     }
