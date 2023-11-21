@@ -110,13 +110,13 @@ class Fetcher {
       const action = this.getURLParams('action');
       
       
-      const runWhenEmailIsLoaded = () => {
+      const runWhencommentsIsLoaded = () => {
         this.fetchData().then(data => {
           if (this.isNotEmpty(data)) {
            
-             const load =  document.getElementById('email')
+             const load =  document.getElementById('comments')
              while(load === undefined){
-               load =  document.getElementById('email')
+               load =  document.getElementById('comments')
              }
               if (typeof subscription.callback === "function") {
                 subscription.callback(data.parsedData);
@@ -128,22 +128,22 @@ class Fetcher {
         });
       };
     
-      // Check if the email input element exists
-      const checkEmailInput = () => {
-        const emailInput = document.getElementById('email');
-        if (emailInput) {
-          // The email input element is loaded, so run the function
-          runWhenEmailIsLoaded();
+      // Check if the comments input element exists
+      const checkcommentsInput = () => {
+        const commentsInput = document.getElementById('comments');
+        if (commentsInput) {
+          // The comments input element is loaded, so run the function
+          runWhencommentsIsLoaded();
         } else {
-          // The email input element is not yet loaded, so wait and check again
-          setTimeout(checkEmailInput, 100); // Check again after 100 milliseconds
+          // The comments input element is not yet loaded, so wait and check again
+          setTimeout(checkcommentsInput, 100); // Check again after 100 milliseconds
         }
       };
     
       if (action) {
         if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
-          // Check for the email input element
-          checkEmailInput();
+          // Check for the comments input element
+          checkcommentsInput();
         }
       }
     }
