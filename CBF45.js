@@ -110,7 +110,7 @@ class Fetcher {
       const action = this.getURLParams('action');
       
       
-      const runWhenEmailIsLoaded = () => {
+      const runWhenENQIsLoaded = () => {
         this.fetchData().then(data => {
           if (this.isNotEmpty(data)) {
            
@@ -128,10 +128,27 @@ class Fetcher {
         });
       };
     
-      // Check if the email input element exists
+      
       
 
-          runWhenEmailIsLoaded();
+      const checkENQInput = () => {
+        const emailInput = document.getElementById('enq-type');
+        if (emailInput) {
+          
+          console.log("intent found")
+          runWhenENQIsLoaded();
+        } else {
+         
+          setTimeout(checkENQInput, 100); 
+        }
+      };
+    
+      if (action) {
+        if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
+          // Check for the email input element
+          checkENQInput();
+        }
+      }
         
     }
     
