@@ -114,9 +114,9 @@ class Fetcher {
         this.fetchData().then(data => {
           if (this.isNotEmpty(data)) {
            
-             const load =  document.getElementById('comments')
+             const load =  document.getElementById('enq-type')
              while(load === undefined){
-               load =  document.getElementById('comments')
+               load =  document.getElementById('enq-type')
              }
               if (typeof subscription.callback === "function") {
                 subscription.callback(data.parsedData);
@@ -130,9 +130,10 @@ class Fetcher {
     
       // Check if the email input element exists
       const checkEmailInput = () => {
-        const emailInput = document.getElementById('comments');
+        const emailInput = document.getElementById('enq-type');
         if (emailInput) {
           // The email input element is loaded, so run the function
+          console.log("intent found")
           runWhenEmailIsLoaded();
         } else {
           // The email input element is not yet loaded, so wait and check again
