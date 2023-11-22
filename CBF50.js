@@ -39,7 +39,22 @@ function loadScript(url, callback) {
  
 }
 
+function waitForElementToLoad(callback, id) {
+  console.log("In wait function", id);
+  
+  var obj = setInterval(
+  function checkElement() {
+    if (document.getElementById(id)) {
+      console.log("Found element with ID", id);
+      if(obj){
+        clearInterval(obj);
+      }
+      callback();
+    } 
+  },200)
+  
 
+}
 
 
 
@@ -107,51 +122,30 @@ class Fetcher {
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
 
     if (subscription) {
-      const action = this.getURLParams('action');
-      
-      
-      const runWhenENQIsLoaded = () => {
-        this.fetchData().then(data => {
-          if (this.isNotEmpty(data)) {
-           
-             const load =  document.getElementById('enq-type')
-             while(load === undefined){
-               load =  document.getElementById('enq-type') 
-             }
-              if (typeof subscription.callback === "function") {
-                subscription.callback(data.parsedData);
-              }
-        
-          }
-        }).catch(error => {
-          console.error("There was an error fetching data:", error.message);
-        });
-      };
-    
-      
-      
+      const action = this.getURLParams('action'); 
+      if(action){
+          if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
+            this.fetchData().then(data => {
+              if(this.isNotEmpty(data)){
 
-      const checkENQInput = () => {
-        const emailInput = document.getElementById('enq-type');
-        if (emailInput) {
-          
-          console.log("intent found")
-          runWhenENQIsLoaded();
-        } else {
-         
-          setTimeout(checkENQInput, 100); 
-        }
-      };
-    
-      if (action) {
-        if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
-        
-          checkENQInput();
-        }
+                console.log(params.fieldId);  
+                waitForElementToLoad(function() {
+                  if (typeof subscription.callback === "function") {
+                      subscription.callback(data.parsedData);
+                  }
+              },params.fieldId);
+
+              }
+              
+            
+            
+          }).catch(error => {
+              console.error("There was an error fetching data:", error.message);
+          });
       }
-        
-    }
-    
+      }
+     
+  }
     return subscriptionId;
   }
 
@@ -207,8 +201,10 @@ class Fetcher {
 class UnifiedModule {
   constructor(chatbotOptions, fetcherOptions, subscriptions) {
       this.chatbotOptions = chatbotOptions;
+      this.fieldId = fetcherOptions.fieldId;
       this.fetcher = new Fetcher();
       this.fetcher.initialize(fetcherOptions);
+      
       this.subscriptions = subscriptions;
   }
 
@@ -304,14 +300,13 @@ class UnifiedModule {
   }
 
   handleSubscription(subscription) {
-    console.log("Subscription handeled")
-    return this.fetcher.subscribeAndListen({
-        topics: subscription.topics,
-        callback: (data) => subscription.callback(data, this.chatbotOptions)
-    });
-}
+      return this.fetcher.subscribeAndListen({
+          topics: subscription.topics,
+          callback: subscription.callback,
+          fieldId: this.fieldId
 
-  
+      });
+  }
 
   initializeSubscriptions() {
       this.subscriptions.forEach(subscription => this.handleSubscription(subscription));
@@ -325,4 +320,3 @@ class UnifiedModule {
   })
   }
 }
-
