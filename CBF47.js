@@ -116,7 +116,7 @@ class Fetcher {
            
              const load =  document.getElementById('enq-type')
              while(load === undefined){
-               load =  document.getElementById('enq-type')
+               load =  document.getElementById('enq-type') 
              }
               if (typeof subscription.callback === "function") {
                 subscription.callback(data.parsedData);
@@ -304,11 +304,30 @@ class UnifiedModule {
   }
 
   handleSubscription(subscription) {
-      return this.fetcher.subscribeAndListen({
-          topics: subscription.topics,
-          callback: subscription.callback
-      });
-  }
+    return this.fetcher.subscribeAndListen({
+        topics: subscription.topics,
+        callback: (data) => subscription.callback(data, this.chatbotOptions)
+    });
+}
+
+  handleAddLead(data, frontendConfig) {
+    console.log("frontendConfig",frontendConfig)
+    Object.keys(frontendConfig).forEach(key => {
+        let selector = frontendConfig[key];
+        console.log("selector",selector);
+
+        let value = data[key];
+        console.log("value",value)
+        if (value) {
+            let inputElement = document.querySelector(selector);
+            if (inputElement) {
+                inputElement.value = value;
+                inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+                inputElement.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }
+    });
+}
 
   initializeSubscriptions() {
       this.subscriptions.forEach(subscription => this.handleSubscription(subscription));
