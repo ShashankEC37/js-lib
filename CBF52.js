@@ -39,7 +39,7 @@ function loadScript(url, callback) {
  
 }
 
-function waitForElementToLoad(callback, id) {
+function waitForElementToLoad(callback, id,timeOut) {
   console.log("In wait function", id);
   
   var obj = setInterval(
@@ -51,7 +51,7 @@ function waitForElementToLoad(callback, id) {
       }
       callback();
     } 
-  },200)
+  },timeOut)
   
 
 }
@@ -133,7 +133,7 @@ class Fetcher {
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
-              },params.fieldId);
+              },params.fieldId,params.timeOut);
 
               }
               
@@ -202,9 +202,9 @@ class UnifiedModule {
   constructor(chatbotOptions, fetcherOptions, subscriptions) {
       this.chatbotOptions = chatbotOptions;
       this.fieldId = fetcherOptions.fieldId;
+      this.timeOut = fetcherOptions.timeOut;
       this.fetcher = new Fetcher();
       this.fetcher.initialize(fetcherOptions);
-      
       this.subscriptions = subscriptions;
   }
 
@@ -303,8 +303,8 @@ class UnifiedModule {
       return this.fetcher.subscribeAndListen({
           topics: subscription.topics,
           callback: subscription.callback,
-          fieldId: this.fieldId
-
+          fieldId: this.fieldId,
+          timeOut:this.timeOut
       });
   }
 
@@ -320,3 +320,4 @@ class UnifiedModule {
   })
   }
 }
+
