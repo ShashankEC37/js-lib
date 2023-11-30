@@ -30,6 +30,23 @@ const signJWT = (data, secretKey) => {
   return `${header}.${payload}.${signature}`;
 };
 
+//Moved the function from loader to CDN file
+const dispatchInputEvents = (input, value) => {
+  if (input) {
+    console.log(input)
+    console.log("Before substitution ",input.value)
+    input.value = value;
+    console.log("After substitution ",input.value)
+
+    
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+    
+    console.log("Dispatched change events")
+    
+  }
+};
+
 //Load srcipt file
 function loadScript(url, callback) {
   var script = document.createElement("script");
@@ -56,6 +73,23 @@ function waitForElementToLoad(callback, id,timeOut) {
 
 }
 
+//Function to put data in fields
+function putDataInFields(configData,parsedData){
+  for (const selector in configData) {
+    console.log("Selector ",selector," Value ",parsedData)
+    console.log(parsedData)
+    const propertyName = selector;
+    const fieldName = configData[selector]
+    const value = parsedData[fieldName];
+    console.log("Prop,Val ",propertyName, value)
+    if (value) {
+      const element = document.querySelector(selector);
+      if (element) {
+        dispatchInputEvents(element, value);
+      }
+    }
+  }
+}
 
 
 class Fetcher {
@@ -130,6 +164,9 @@ class Fetcher {
 
                 console.log(params.fieldId);  
                 waitForElementToLoad(function() {
+                  console.log(data)
+                  //Calling the function to replace data to fields
+                  putDataInFields(params.configData,data.parsedData);
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
@@ -302,9 +339,12 @@ class UnifiedModule {
   handleSubscription(subscription) {
       return this.fetcher.subscribeAndListen({
           topics: subscription.topics,
+          //Did not remove callback, might be needed for more complex operations
           callback: subscription.callback,
           fieldId: this.fieldId,
-          timeOut:this.timeOut
+          timeOut:this.timeOut,
+          // Taking in config data
+          configData: subscription.configData
       });
   }
 
