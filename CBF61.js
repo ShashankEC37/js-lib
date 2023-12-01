@@ -166,7 +166,7 @@ class Fetcher {
                 waitForElementToLoad(function() {
                   console.log(data.middleware.selector)
                   //Calling the function to replace data to fields
-                  putDataInFields(data,data.parsedData);
+                  putDataInFields(data.middleware,data.parsedData);
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
