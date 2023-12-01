@@ -75,6 +75,7 @@ function waitForElementToLoad(callback, id,timeOut) {
 
 //Function to put data in fields
 function putDataInFields(configData,parsedData){
+  console.log("configb",configData)
   for (const selector in configData) {
     console.log("Selector ",selector," Value ",parsedData)
     console.log(parsedData)
