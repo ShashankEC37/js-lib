@@ -164,9 +164,9 @@ class Fetcher {
 
                 console.log(params.fieldId);  
                 waitForElementToLoad(function() {
-                  console.log(data)
+                  console.log(data.middleware.selector)
                   //Calling the function to replace data to fields
-                  putDataInFields(params.configData,data.parsedData);
+                  putDataInFields(data,data.parsedData);
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
