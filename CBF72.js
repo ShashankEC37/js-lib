@@ -154,17 +154,15 @@ class Fetcher {
     if (subscription) {
       const action = this.getURLParams('action');
       if(action){
-        console.log("Action Recognized")
-        console.log(action)
-        console.log(subscription.topics)
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
             console.log("Action included")
+            console.log("Wait field id", params.fieldId)
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
-
-                console.log(params.fieldId);  
+ 
                 waitForElementToLoad(function() {
                   console.log(data.middleware.selector)
+                  console.log(data.parsedData)
                   //Calling the function to replace data to fields
                   putDataInFields(data.middleware.selector,data.parsedData);
                   if (typeof subscription.callback === "function") {
