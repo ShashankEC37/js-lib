@@ -152,7 +152,7 @@ class Fetcher {
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
     
     if (subscription) {
-      
+      console.log(subscription)
       const action = this.getURLParams('action');
       console.log(action) 
       if(action){
