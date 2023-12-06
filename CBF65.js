@@ -130,7 +130,6 @@ class Fetcher {
   }
 
   const data = await response.json();
-  console.log(data)
   if (data.isValid === true) {
       return true;
   } else {
@@ -151,8 +150,9 @@ class Fetcher {
     this._subscriptions.push({ id: subscriptionId, topics: topics, callback: callback });
 
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
-
+    
     if (subscription) {
+      console.log(subscription)
       const action = this.getURLParams('action'); 
       if(action){
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
