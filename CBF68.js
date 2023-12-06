@@ -152,11 +152,10 @@ class Fetcher {
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
     
     if (subscription) {
-      console.log(subscription)
       const action = this.getURLParams('action');
-      console.log(action) 
       if(action){
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
+            console.log("Action Recognized")
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
 
