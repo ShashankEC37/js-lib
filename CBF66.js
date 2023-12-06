@@ -152,8 +152,9 @@ class Fetcher {
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
     
     if (subscription) {
-      console.log(subscription)
-      const action = this.getURLParams('action'); 
+      
+      const action = this.getURLParams('action');
+      console.log(action) 
       if(action){
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
             this.fetchData().then(data => {
@@ -336,11 +337,10 @@ class UnifiedModule {
   handleSubscription(subscription) {
       return this.fetcher.subscribeAndListen({
           topics: subscription.topics,
-          //Did not remove callback, might be needed for more complex operations
           callback: subscription.callback,
           fieldId: this.fieldId,
           timeOut:this.timeOut,
-          // Taking in config data
+       
           configData: subscription.configData
       });
   }
