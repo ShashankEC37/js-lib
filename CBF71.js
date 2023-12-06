@@ -155,8 +155,10 @@ class Fetcher {
       const action = this.getURLParams('action');
       if(action){
         console.log("Action Recognized")
+        console.log(action)
+        console.log(subscription.topics)
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
-            
+            console.log("Action included")
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
 
