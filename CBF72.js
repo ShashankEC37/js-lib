@@ -151,7 +151,7 @@ class Fetcher {
 
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
     
-    if (subscription) {
+        
       const action = this.getURLParams('action');
       if(action){
           if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
@@ -180,7 +180,7 @@ class Fetcher {
       }
       }
      
-  }
+  
     return subscriptionId;
   }
 
