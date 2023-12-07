@@ -150,13 +150,15 @@ class Fetcher {
     this._subscriptions.push({ id: subscriptionId, topics: topics, callback: callback });
 
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
-    
+    const actionandfields = {
+      addLead : "email",
+      searchLead : "client"
+    }
         
       const action = this.getURLParams('action');
-      if(action){
-          if (subscription.topics.includes(action) || subscription.topics.includes('*')) {
-            console.log("Action included")
-            console.log("Wait field id", params.fieldId)
+          if (action && actionandfields[action]) {
+            let waitfield =actionandfields[action]
+            console.log("Wait field id", waitfield)
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
  
@@ -168,7 +170,7 @@ class Fetcher {
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
-              },params.fieldId,params.timeOut);
+              },waitfield,params.timeOut);
 
               }
               
@@ -178,7 +180,7 @@ class Fetcher {
               console.error("There was an error fetching data:", error.message);
           });
       }
-      }
+      
      
   
     return subscriptionId;
