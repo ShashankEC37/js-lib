@@ -30,7 +30,6 @@ const signJWT = (data, secretKey) => {
   return `${header}.${payload}.${signature}`;
 };
 
-//Moved the function from loader to CDN file
 const dispatchInputEvents = (input, value) => {
   if (input) {
     console.log(input)
@@ -73,15 +72,15 @@ function waitForElementToLoad(callback, id,timeOut) {
 
 }
 function putDataInFields(configData, parsedData) {
-  console.log("Config Data: ", configData);
   for (const fieldName in configData) {
     const selector = configData[fieldName];
     const value = parsedData[fieldName];
     console.log("Selector: ", selector, " Value: ", value);
     if (value) {
+      console.log("Value identified",value)
       const element = document.querySelector(selector);
       if (element) {
-        console.log(elemet)
+        console.log("Value identified",element)
         dispatchInputEvents(element, value);
       }
     }
