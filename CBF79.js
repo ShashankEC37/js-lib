@@ -41,7 +41,7 @@ const dispatchInputEvents = (input, value) => {
       input.dispatchEvent(new Event("input", { bubbles: true }));
       input.dispatchEvent(new Event("change", { bubbles: true }));
     
-    console.log("Dispatched change events")
+    consolquere.log("Dispatched change events")
     
   }
 };
@@ -152,7 +152,8 @@ class Fetcher {
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
     const actionandfields = {
       addLead : "email",
-      searchLead : "client"
+      searchLead : "client",
+      contactClient : "client-search"
     }
         
       const action = this.getURLParams('action');
