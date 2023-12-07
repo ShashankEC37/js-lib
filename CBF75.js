@@ -81,6 +81,7 @@ function putDataInFields(configData, parsedData) {
     if (value) {
       const element = document.querySelector(selector);
       if (element) {
+        console.log(elemet)
         dispatchInputEvents(element, value);
       }
     }
