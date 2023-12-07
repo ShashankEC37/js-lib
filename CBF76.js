@@ -80,7 +80,7 @@ function putDataInFields(configData, parsedData) {
       console.log("Value identified",value)
       const element = document.querySelector(selector);
       if (element) {
-        console.log("Value identified",element)
+        console.log("element identified",element)
         dispatchInputEvents(element, value);
       }
     }
@@ -157,6 +157,7 @@ class Fetcher {
         
       const action = this.getURLParams('action');
           if (action && actionandfields[action]) {
+            console.log(action)
             let waitfield =actionandfields[action]
             console.log("Wait field id", waitfield)
             this.fetchData().then(data => {
