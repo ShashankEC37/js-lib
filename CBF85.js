@@ -71,9 +71,9 @@ function waitForElementToLoad(callback, selectors, timeOut) {
   }, timeOut);
 }
 
-function putDataInFields(configData, parsedData) {
-  for (const fieldName in configData) {
-    const selector = configData[fieldName];
+function putDataInFields(fields, parsedData) {
+  for (const fieldName in fields) {
+    const selector = fields[fieldName];
     const value = parsedData[fieldName];
     console.log("Selector: ", selector, " Value: ", value);
     if (value) {
