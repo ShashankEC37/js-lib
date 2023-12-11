@@ -71,9 +71,6 @@ function waitForElementToLoad(callback, selectors, timeOut) {
   }, timeOut);
 }
 
-  
-
-}
 function putDataInFields(configData, parsedData) {
   for (const fieldName in configData) {
     const selector = configData[fieldName];
@@ -153,12 +150,14 @@ class Fetcher {
     this._subscriptions.push({ id: subscriptionId, topics: topics, callback: callback });
 
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
+ 
         
       const action = this.getURLParams('action');
-      console.log("Title - ",data.middleware.title)
-          if (action && data.middleware.title) {
+      console.log(action)
+      console.log(actionandfields[action])
+          if (action) {
             console.log(action)
-            let waitfield =
+            let waitfield =actionandfields[action]
             console.log("Wait field id", waitfield)
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
