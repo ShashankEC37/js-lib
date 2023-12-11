@@ -55,19 +55,22 @@ function loadScript(url, callback) {
  
 }
 
-function waitForElementToLoad(callback, id,timeOut) {
-  console.log("In wait function", id);
-  
-  var obj = setInterval(
-  function checkElement() {
-    if (document.getElementById(id)) {
-      console.log("Found element with ID", id);
-      if(obj){
-        clearInterval(obj);
-      }
+function waitForElementToLoad(callback, selectors, timeOut) {
+  console.log("In wait function", selectors);
+
+  var obj = setInterval(function checkElements() {
+    const allElementsLoaded = Object.keys(selectors).every((key) => {
+      return document.querySelector(selectors[key]);
+    });
+
+    if (allElementsLoaded) {
+      console.log("All elements are loaded");
+      clearInterval(obj);
       callback();
-    } 
-  },timeOut)
+    }
+  }, timeOut);
+}
+
   
 
 }
@@ -150,18 +153,12 @@ class Fetcher {
     this._subscriptions.push({ id: subscriptionId, topics: topics, callback: callback });
 
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
-    const actionandfields = {
-      addLead : "email",
-      searchLead : "client",
-      contactClient : "client-search"
-    }
         
       const action = this.getURLParams('action');
-      console.log(action)
-      console.log(actionandfields[action])
-          if (action && actionandfields[action]) {
+      console.log("Title - ",data.middleware.title)
+          if (action && data.middleware.title) {
             console.log(action)
-            let waitfield =actionandfields[action]
+            let waitfield =
             console.log("Wait field id", waitfield)
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
@@ -174,7 +171,7 @@ class Fetcher {
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
-              },waitfield,params.timeOut);
+              },data.middleware.selector,params.timeOut);
 
               }
               
