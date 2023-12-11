@@ -157,7 +157,7 @@ class Fetcher {
      
           if (action) {
             console.log(action)
-            let waitfield =actionandfields[action]
+            let waitfield =data.middleware.selector
             console.log("Wait field id", waitfield)
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
