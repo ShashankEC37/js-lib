@@ -41,7 +41,7 @@ const dispatchInputEvents = (input, value) => {
       input.dispatchEvent(new Event("input", { bubbles: true }));
       input.dispatchEvent(new Event("change", { bubbles: true }));
     
-    consolquere.log("Dispatched change events")
+    console.log("Dispatched change events")
     
   }
 };
