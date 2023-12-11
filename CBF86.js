@@ -72,6 +72,9 @@ function waitForElementToLoad(callback, selectors, timeOut) {
 }
 
 function putDataInFields(fields, parsedData) {
+  console.log("Fields-",fields)
+  console.log("ParsedData-",parsedData)
+
   for (const fieldName in fields) {
     const selector = fields[fieldName];
     const value = parsedData[fieldName];
