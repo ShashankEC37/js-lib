@@ -154,7 +154,7 @@ class Fetcher {
         
       const action = this.getURLParams('action');
       console.log(action)
-      console.log(actionandfields[action])
+     
           if (action) {
             console.log(action)
             let waitfield =actionandfields[action]
