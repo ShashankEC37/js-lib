@@ -53,7 +53,7 @@ function loadScript(url, callback) {
   document.head.appendChild(script);
   script.onload = callback;
  
-}
+}  
 
 function waitForElementToLoad(callback, selectors, timeOut) {
   console.log("In wait function", selectors);
@@ -157,6 +157,10 @@ class Fetcher {
         
       const action = this.getURLParams('action');
       console.log(action)
+
+          if(action == data.middleware.Addlead){
+            
+          }
      
           if (action) {
             console.log(action)
@@ -299,7 +303,7 @@ class UnifiedModule {
 
       button.style.cssText = `
         position: fixed;
-        right: 20px;
+        right: 50px;
         bottom: 20px;
         height: 60px;
         width: 60px;
