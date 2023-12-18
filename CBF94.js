@@ -60,6 +60,15 @@ function waitForElementToLoad(callback, selectors, timeOut) {
 
   var obj = setInterval(function checkElements() {
     const allElementsLoaded = Object.keys(selectors).every((key) => {
+      if (selectors[key] === ".edit") {
+        const editElement = document.querySelector(selectors[key]);
+      
+        if (editElement) {
+          editElement.click(); // Trigger click event
+          console.log("clicked")
+        }
+      }
+      
       return document.querySelector(selectors[key]);
     });
 
