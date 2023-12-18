@@ -55,23 +55,26 @@ function loadScript(url, callback) {
  
 }  
 
-function waitForElementToLoad(callback, selectors, timeOut) {
+function waitForElementToLoad(callback, selectors,operations, timeOut) {
+  if (operations.hasOwnProperty("click")) {
+    var operation = setInterval(checkElementAndClick, timeOut);
+
+    function checkElementAndClick() {
+        const selector = operations["click"];
+        const element = document.querySelector(selector);
+
+        if (element) {
+            console.log("Element is loaded, clicking on it");
+            element.click();
+            clearInterval(operation);
+        }
+    }
+}
   console.log("In wait function", selectors);
 
   var obj = setInterval(function checkElements() {
     const allElementsLoaded = Object.keys(selectors).every((key) => {
       console.log(selectors[key])
-      if (selectors[key] === ".edit") {
-        const editElement = document.querySelector(selectors[key]);
-      
-        if (editElement) {
-          setTimeout(() => {
-            editElement.click();
-            console.log("clicked");
-          }, 500); 
-        }
-      }
-      
       return document.querySelector(selectors[key]);
     });
 
@@ -189,7 +192,7 @@ class Fetcher {
                   if (typeof subscription.callback === "function") {
                       subscription.callback(data.parsedData);
                   }
-              },data.middleware.selector,params.timeOut);
+              },data.middleware.selector,data.middleware.operations,params.timeOut);
 
               }
               
