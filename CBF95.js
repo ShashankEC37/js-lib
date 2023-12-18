@@ -64,8 +64,10 @@ function waitForElementToLoad(callback, selectors, timeOut) {
         const editElement = document.querySelector(selectors[key]);
       
         if (editElement) {
-          editElement.click(); // Trigger click event
-          console.log("clicked")
+          setTimeout(() => {
+            editElement.click();
+            console.log("clicked");
+          }, 500); 
         }
       }
       
