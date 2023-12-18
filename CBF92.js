@@ -75,6 +75,9 @@ function putDataInFields(fields, parsedData) {
   console.log("Fields-",fields)
   console.log("ParsedData-",parsedData)
 
+  if(fields==='edit')
+
+
   for (const fieldName in fields) {
     const selector = fields[fieldName];
     const value = parsedData[fieldName];
@@ -156,20 +159,20 @@ class Fetcher {
  
         
       const action = this.getURLParams('action');
-      console.log(action)
+      console.log("First if",action)
 
-          if(action == data.middleware.Addlead){
-            
-          }
+        
      
           if (action) {
-            console.log(action)
+            console.log("Inside if",action)
             this.fetchData().then(data => {
               if(this.isNotEmpty(data)){
                 
                 waitForElementToLoad(function() {
                   console.log(data.middleware.selector)
                   console.log(data.parsedData)
+
+                  
                   //Calling the function to replace data to fields
                   putDataInFields(data.middleware.selector,data.parsedData);
                   if (typeof subscription.callback === "function") {
