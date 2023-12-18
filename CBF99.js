@@ -59,7 +59,7 @@ function waitForElementToLoad(callback, selectors, timeOut) {
   console.log("In wait function", selectors);
 
   var obj = setInterval(function checkElements() {
-    const allElementsLoaded = Object.keys(selectors).forEach((key) => {
+    const allElementsLoaded = Object.keys(selectors).every((key) => {
       console.log(selectors[key])
       if (selectors[key] === ".edit") {
         const editElement = document.querySelector(selectors[key]);
