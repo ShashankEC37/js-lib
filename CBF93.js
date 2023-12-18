@@ -75,8 +75,7 @@ function putDataInFields(fields, parsedData) {
   console.log("Fields-",fields)
   console.log("ParsedData-",parsedData)
 
-  if(fields==='edit')
-
+ 
 
   for (const fieldName in fields) {
     const selector = fields[fieldName];
@@ -157,7 +156,7 @@ class Fetcher {
 
     var subscription = { id: subscriptionId, topics: topics, callback: callback }
  
-        
+      
       const action = this.getURLParams('action');
       console.log("First if",action)
 
