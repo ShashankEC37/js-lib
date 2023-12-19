@@ -60,15 +60,18 @@ function waitForElementToLoad(callback, selectors,operations, timeOut) {
     var operation = setInterval(checkElementAndClick, timeOut);
 
     function checkElementAndClick() {
-        const selector = operations["click"];
-        const element = document.querySelector(selector);
-
-        if (element) {
-            console.log("Element is loaded, clicking on it");
-            element.click();
-            clearInterval(operation);
-        }
-    }
+      const selector = operations["click"];
+      const element = document.querySelector(selector);
+  
+      if (element) {
+          console.log("Element is loaded. Waiting for 0.5 seconds before clicking on it.");
+          setTimeout(function() {
+              console.log("Clicking on the element now.");
+              element.click();
+              clearInterval(operation);
+          }, 500); // 500 milliseconds (0.5 seconds) delay
+      }
+  }
 }
   console.log("In wait function", selectors);
 
