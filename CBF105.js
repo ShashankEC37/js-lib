@@ -99,13 +99,13 @@ function putDataInFields(fields, parsedData) {
     console.log("Selector: ", selector, " Value: ", value);
 
     if (fieldName === 'intent') {
-      const radioGroupSelector = selector;
+      // Handle the special case for the "intent" field
+      const radioGroupSelector = '#enq-type';
       const radioButtons = document.querySelectorAll(`${radioGroupSelector} input`);
       
       radioButtons.forEach((radioButton) => {
         if (radioButton.value.toLowerCase() === value.toLowerCase()) {
-          radioButton.checked = true;
-          dispatchInputEvents(radioButton, value);
+          radioButton.click(); 
         }
       });
     } else {
@@ -120,14 +120,6 @@ function putDataInFields(fields, parsedData) {
     }
   }
 }
-
-function dispatchInputEvents(element, value) {
-  // Your existing logic to dispatch input events
-  // For example, setting the value of an input field
-  element.value = value;
-  element.dispatchEvent(new Event('input', { bubbles: true }));
-}
-
 
 
 
