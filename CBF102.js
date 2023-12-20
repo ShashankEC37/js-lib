@@ -69,7 +69,7 @@ function waitForElementToLoad(callback, selectors,operations, timeOut) {
               console.log("Clicking on the element now.");
               element.click();
               clearInterval(operation);
-          }, 500); // 500 milliseconds (0.5 seconds) delay
+          }, 200); 
       }
   }
 }
@@ -90,25 +90,44 @@ function waitForElementToLoad(callback, selectors,operations, timeOut) {
 }
 
 function putDataInFields(fields, parsedData) {
-  console.log("Fields-",fields)
-  console.log("ParsedData-",parsedData)
-
- 
+  console.log("Fields-", fields);
+  console.log("ParsedData-", parsedData);
 
   for (const fieldName in fields) {
     const selector = fields[fieldName];
     const value = parsedData[fieldName];
     console.log("Selector: ", selector, " Value: ", value);
-    if (value) {
-      console.log("Value identified",value)
-      const element = document.querySelector(selector);
-      if (element) {
-        console.log("element identified",element)
-        dispatchInputEvents(element, value);
+
+    if (fieldName === 'intent') {
+      const radioGroupSelector = selector;
+      const radioButtons = document.querySelectorAll(`${radioGroupSelector} input`);
+      
+      radioButtons.forEach((radioButton) => {
+        if (radioButton.value.toLowerCase() === value.toLowerCase()) {
+          radioButton.checked = true;
+          dispatchInputEvents(radioButton, value);
+        }
+      });
+    } else {
+      if (value) {
+        console.log("Value identified", value);
+        const element = document.querySelector(selector);
+        if (element) {
+          console.log("element identified", element);
+          dispatchInputEvents(element, value);
+        }
       }
     }
   }
 }
+
+function dispatchInputEvents(element, value) {
+  // Your existing logic to dispatch input events
+  // For example, setting the value of an input field
+  element.value = value;
+  element.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
 
 
 
